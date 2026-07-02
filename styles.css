@@ -662,6 +662,73 @@ select {
   background: #f8faf8;
 }
 
+.admin-protected-content[hidden],
+.admin-login-panel[hidden] {
+  display: none;
+}
+
+.admin-login-panel {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: 0 10px 36px rgba(24, 49, 39, 0.06);
+}
+
+.admin-login-form {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-login-form label {
+  display: grid;
+  gap: 7px;
+  color: #2f413a;
+  font-weight: 800;
+}
+
+.admin-login-form button,
+#adminLogoutBtn {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--green);
+  border-radius: 8px;
+  color: var(--white);
+  background: var(--green);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.admin-login-error {
+  min-height: 20px;
+  margin: 0;
+  color: #b13b2e;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.admin-session-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid #d5e2dc;
+  border-radius: 8px;
+  background: #edf4f0;
+  color: var(--forest);
+  font-weight: 900;
+}
+
+#adminLogoutBtn {
+  color: var(--green);
+  background: var(--white);
+}
+
 .admin-layout {
   display: grid;
   grid-template-columns: minmax(320px, 0.95fr) minmax(360px, 1.15fr);
