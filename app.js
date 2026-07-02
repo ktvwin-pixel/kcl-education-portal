@@ -119,6 +119,12 @@ scenarioSelect.addEventListener("change", renderAnswer);
 renderTier("free");
 
 const joinForm = document.querySelector("#joinForm");
+const consentModal = document.querySelector("#consentModal");
+const consentCloseBtn = document.querySelector("#consentCloseBtn");
+const consentCancelBtn = document.querySelector("#consentCancelBtn");
+const consentSendBtn = document.querySelector("#consentSendBtn");
+const consentCheckboxes = document.querySelectorAll(".consent-checkbox");
+let pendingGmailUrl = "";
 
 joinForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -134,6 +140,11 @@ joinForm.addEventListener("submit", (event) => {
   }
 
   const subject = `[KCL 홈페이지] ${requestType} - ${name}`;
+  const paymentGuide = [
+    "유료회원 가입 안내",
+    "연 회비: 100,000원",
+    "입금계좌: 하나은행 661-910505-07007"
+  ].join("\n");
   const body = [
     "KOREA CONTENTS LAB 회원 가입 및 전환 신청",
     "",
@@ -143,6 +154,10 @@ joinForm.addEventListener("submit", (event) => {
     "",
     "문의 내용:",
     message || "(입력 없음)",
+    "",
+    paymentGuide,
+    "",
+    "회원 정관 및 개인정보 전달 동의: 신청자가 홈페이지 동의창에서 확인 후 작성",
     "",
     `신청 페이지: ${window.location.href}`,
     `작성 시각: ${new Date().toLocaleString("ko-KR")}`
@@ -155,5 +170,43 @@ joinForm.addEventListener("submit", (event) => {
   gmailUrl.searchParams.set("su", subject);
   gmailUrl.searchParams.set("body", body);
 
-  window.open(gmailUrl.toString(), "_blank", "noopener");
+  pendingGmailUrl = gmailUrl.toString();
+  openConsentModal();
+});
+
+function openConsentModal() {
+  consentCheckboxes.forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+  consentSendBtn.disabled = true;
+  consentModal.hidden = false;
+}
+
+function closeConsentModal() {
+  consentModal.hidden = true;
+  pendingGmailUrl = "";
+}
+
+function updateConsentButton() {
+  consentSendBtn.disabled = ![...consentCheckboxes].every((checkbox) => checkbox.checked);
+}
+
+consentCheckboxes.forEach((checkbox) => {
+  checkbox.addEventListener("change", updateConsentButton);
+});
+
+consentCloseBtn.addEventListener("click", closeConsentModal);
+consentCancelBtn.addEventListener("click", closeConsentModal);
+consentModal.addEventListener("click", (event) => {
+  if (event.target === consentModal) {
+    closeConsentModal();
+  }
+});
+
+consentSendBtn.addEventListener("click", () => {
+  if (!pendingGmailUrl) {
+    return;
+  }
+  window.open(pendingGmailUrl, "_blank", "noopener");
+  consentModal.hidden = true;
 });
