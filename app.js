@@ -143,7 +143,8 @@ joinForm.addEventListener("submit", (event) => {
   const paymentGuide = [
     "유료회원 가입 안내",
     "연 회비: 100,000원",
-    "입금계좌: 하나은행 661-910505-07007"
+    "입금계좌: 하나은행 661-910505-07007",
+    "예금주: 코리아콘텐츠연구소"
   ].join("\n");
   const body = [
     "KOREA CONTENTS LAB 회원 가입 및 전환 신청",
