@@ -614,6 +614,139 @@ select {
   font-weight: 800;
 }
 
+.consent-modal[hidden] {
+  display: none;
+}
+
+.consent-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(9, 31, 26, 0.68);
+}
+
+.consent-dialog {
+  position: relative;
+  width: min(720px, 100%);
+  max-height: min(88vh, 780px);
+  overflow: auto;
+  padding: 30px;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.consent-dialog h2 {
+  margin: 0 42px 20px 0;
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.25;
+}
+
+.terms-box {
+  padding: 20px;
+  background: #f5f8f6;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.terms-box h3 {
+  margin-top: 0;
+}
+
+.terms-box ul {
+  margin: 12px 0 20px;
+  padding-left: 20px;
+}
+
+.terms-box li {
+  margin: 6px 0;
+}
+
+.fee-notice {
+  margin: 0;
+  padding: 14px;
+  color: var(--forest);
+  background: var(--mint);
+  border-left: 4px solid var(--gold);
+  border-radius: 6px;
+  font-weight: 900;
+}
+
+.consent-checks {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.consent-checks label {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 10px;
+  align-items: start;
+  color: #2f413a;
+  font-weight: 800;
+}
+
+.consent-checks input {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+}
+
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.modal-actions button {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+#consentCancelBtn {
+  background: var(--white);
+  color: var(--ink);
+}
+
+#consentSendBtn {
+  border-color: var(--green);
+  color: var(--white);
+  background: var(--green);
+}
+
+#consentSendBtn:disabled {
+  border-color: #c9d5cf;
+  background: #c9d5cf;
+  cursor: not-allowed;
+}
+
 .site-footer {
   display: flex;
   justify-content: space-between;
