@@ -260,6 +260,24 @@
           <p class="eyebrow">가입 및 전환 신청</p>
           <h2>교육 자료 검토부터 정회원 인증까지<br>한 흐름으로 관리합니다.</h2>
           <p>운영 채널과 연동해 공지, 실습 과제, 피드백, 정회원 인증 안내를 이어갈 수 있습니다.</p>
+          <div class="institution-guide" aria-label="기관 교육 문의 과정">
+            <article>
+              <strong>2시간 과정</strong>
+              <span>임직원·담당자 대상 재난소통 핵심 원칙과 현장 메시지 작성 실습</span>
+            </article>
+            <article>
+              <strong>3시간 과정</strong>
+              <span>브리핑, 언론 대응, 민원·SNS 대응을 포함한 사례 기반 집중 교육</span>
+            </article>
+            <article>
+              <strong>자격증 과정</strong>
+              <span>표준교육 이수, 평가, 수료·인증 연계를 포함한 심화 과정</span>
+            </article>
+          </div>
+          <div class="admin-guide">
+            <strong>관리자 활용</strong>
+            <span>접수 메일은 기간, 지역, 기관, 담당자 연락처 항목으로 정리되어 Gmail 검색과 엑셀 정리에 활용할 수 있습니다.</span>
+          </div>
         </div>
         <form class="join-form" id="joinForm">
           <label>
@@ -278,6 +296,32 @@
               <option>기관 교육 문의</option>
             </select>
           </label>
+          <div class="institution-fields" id="institutionFields" hidden>
+            <label>
+              교육 과정
+              <select id="courseType" name="courseType">
+                <option>2시간 과정</option>
+                <option>3시간 과정</option>
+                <option>자격증 과정</option>
+              </select>
+            </label>
+            <label>
+              담당자 이메일주소
+              <input id="contactEmail" name="contactEmail" type="email" placeholder="name@example.com">
+            </label>
+            <label>
+              담당자 연락처
+              <input id="contactPhone" name="contactPhone" type="tel" placeholder="010-0000-0000">
+            </label>
+            <label>
+              지역
+              <input id="region" name="region" type="text" placeholder="서울, 경기, 부산 등">
+            </label>
+            <label>
+              희망 기간
+              <input id="preferredPeriod" name="preferredPeriod" type="text" placeholder="2026년 8월 중, 9월 첫째 주 등">
+            </label>
+          </div>
           <label>
             신청 내용
             <textarea id="joinMessage" name="message" rows="4" placeholder="필요한 교육, 자료 이용 목적, 희망 일정 등을 적어주세요."></textarea>
@@ -337,6 +381,6 @@
       </div>
     </footer>
 
-  <script src="app.js?v=member-mail-recipient"></script>
+  <script src="app.js?v=institution-education-form"></script>
   </body>
 </html>
