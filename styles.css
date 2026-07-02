@@ -601,10 +601,54 @@ select {
   max-width: 680px;
 }
 
+.institution-guide,
+.admin-guide {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.institution-guide article,
+.admin-guide {
+  padding: 16px;
+  border: 1px solid #d5e2dc;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.institution-guide strong,
+.admin-guide strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--forest);
+  font-size: 17px;
+}
+
+.institution-guide span,
+.admin-guide span {
+  display: block;
+  color: #4c6158;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
 .join-form {
   display: grid;
   gap: 14px;
   padding: 24px;
+}
+
+.institution-fields[hidden] {
+  display: none;
+}
+
+.institution-fields {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #d5e2dc;
+  border-radius: 8px;
+  background: #f7fbf8;
 }
 
 .join-form label {
