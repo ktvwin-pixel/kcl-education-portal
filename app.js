@@ -125,6 +125,7 @@ const consentCancelBtn = document.querySelector("#consentCancelBtn");
 const consentSendBtn = document.querySelector("#consentSendBtn");
 const consentCheckboxes = document.querySelectorAll(".consent-checkbox");
 let pendingGmailUrl = "";
+const membershipEmail = "2025koreacl@gmail.com";
 
 joinForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -153,7 +154,7 @@ joinForm.addEventListener("submit", (event) => {
     `소속/직무: ${organization}`,
     `신청 유형: ${requestType}`,
     "",
-    "문의 내용:",
+    "신청 내용:",
     message || "(입력 없음)",
     "",
     paymentGuide,
@@ -167,7 +168,8 @@ joinForm.addEventListener("submit", (event) => {
   const gmailUrl = new URL("https://mail.google.com/mail/");
   gmailUrl.searchParams.set("view", "cm");
   gmailUrl.searchParams.set("fs", "1");
-  gmailUrl.searchParams.set("to", "2025koreacl@gmail.com");
+  gmailUrl.searchParams.set("tf", "1");
+  gmailUrl.searchParams.set("to", membershipEmail);
   gmailUrl.searchParams.set("su", subject);
   gmailUrl.searchParams.set("body", body);
 
