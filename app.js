@@ -268,6 +268,16 @@ consentSendBtn.addEventListener("click", () => {
 });
 
 const adminStorageKey = "kclInstitutionApplications";
+const adminSessionKey = "kclAdminLoggedIn";
+const adminLoginIdValue = "kcladmin";
+const adminLoginPasswordValue = "KCL2026!";
+const adminLoginPanel = document.querySelector("#adminLoginPanel");
+const adminProtectedContent = document.querySelector("#adminProtectedContent");
+const adminLoginForm = document.querySelector("#adminLoginForm");
+const adminLoginId = document.querySelector("#adminLoginId");
+const adminLoginPassword = document.querySelector("#adminLoginPassword");
+const adminLoginError = document.querySelector("#adminLoginError");
+const adminLogoutBtn = document.querySelector("#adminLogoutBtn");
 const adminForm = document.querySelector("#adminForm");
 const parseAdminMailBtn = document.querySelector("#parseAdminMailBtn");
 const downloadAdminCsvBtn = document.querySelector("#downloadAdminCsvBtn");
@@ -470,8 +480,47 @@ function clearAdminFilters() {
   renderAdminRecords();
 }
 
+function isAdminLoggedIn() {
+  return sessionStorage.getItem(adminSessionKey) === "true";
+}
+
+function updateAdminAccess() {
+  if (!adminForm) {
+    return;
+  }
+
+  const loggedIn = isAdminLoggedIn();
+  adminLoginPanel.hidden = loggedIn;
+  adminProtectedContent.hidden = !loggedIn;
+  if (loggedIn) {
+    fillAdminDate();
+    renderAdminRecords();
+  } else {
+    adminLoginPassword.value = "";
+    adminLoginError.textContent = "";
+  }
+}
+
 if (adminForm) {
-  fillAdminDate();
+  adminLoginForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const id = adminLoginId.value.trim();
+    const password = adminLoginPassword.value;
+
+    if (id === adminLoginIdValue && password === adminLoginPasswordValue) {
+      sessionStorage.setItem(adminSessionKey, "true");
+      updateAdminAccess();
+      return;
+    }
+
+    adminLoginError.textContent = "관리자 아이디 또는 비밀번호가 올바르지 않습니다.";
+  });
+
+  adminLogoutBtn.addEventListener("click", () => {
+    sessionStorage.removeItem(adminSessionKey);
+    updateAdminAccess();
+  });
+
   parseAdminMailBtn.addEventListener("click", parseAdminMail);
   adminForm.addEventListener("submit", saveAdminRecord);
   downloadAdminCsvBtn.addEventListener("click", downloadAdminCsv);
@@ -479,5 +528,5 @@ if (adminForm) {
   Object.values(adminFilters).forEach((input) => {
     input.addEventListener("input", renderAdminRecords);
   });
-  renderAdminRecords();
+  updateAdminAccess();
 }
