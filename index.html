@@ -335,7 +335,26 @@
         <div class="section-heading">
           <p class="eyebrow">관리자 접수대장</p>
           <h2>신청 정보를 확인하고<br>엑셀 파일로 내려받습니다.</h2>
-          <p>Gmail로 접수된 기관 교육 문의 내용을 붙여넣으면 검색용 항목으로 정리됩니다. 저장된 자료는 이 브라우저의 관리자 대장에 보관됩니다.</p>
+          <p>관리자 아이디와 비밀번호로 입장한 경우에만 접수대장을 확인하고 내려받을 수 있습니다.</p>
+        </div>
+        <div class="admin-login-panel" id="adminLoginPanel">
+          <form class="admin-login-form" id="adminLoginForm">
+            <label>
+              관리자 아이디
+              <input id="adminLoginId" type="text" autocomplete="username" placeholder="관리자 아이디">
+            </label>
+            <label>
+              관리자 비밀번호
+              <input id="adminLoginPassword" type="password" autocomplete="current-password" placeholder="비밀번호">
+            </label>
+            <button type="submit">관리자 입장</button>
+            <p class="admin-login-error" id="adminLoginError" aria-live="polite"></p>
+          </form>
+        </div>
+        <div class="admin-protected-content" id="adminProtectedContent" hidden>
+        <div class="admin-session-bar">
+          <span>관리자 접속 중입니다.</span>
+          <button id="adminLogoutBtn" type="button">관리자 나가기</button>
         </div>
         <div class="admin-layout">
           <form class="admin-form" id="adminForm">
@@ -437,6 +456,7 @@
             </div>
           </div>
         </div>
+        </div>
       </section>
     </main>
 
@@ -490,6 +510,6 @@
       </div>
     </footer>
 
-  <script src="app.js?v=admin-ledger-export"></script>
+  <script src="app.js?v=admin-login-ledger"></script>
   </body>
 </html>
