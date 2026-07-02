@@ -124,19 +124,80 @@ const consentCloseBtn = document.querySelector("#consentCloseBtn");
 const consentCancelBtn = document.querySelector("#consentCancelBtn");
 const consentSendBtn = document.querySelector("#consentSendBtn");
 const consentCheckboxes = document.querySelectorAll(".consent-checkbox");
+const joinType = document.querySelector("#joinType");
+const institutionFields = document.querySelector("#institutionFields");
 let pendingGmailUrl = "";
 const membershipEmail = "2025koreacl@gmail.com";
+
+function buildGmailUrl(subject, body) {
+  const gmailUrl = new URL("https://mail.google.com/mail/");
+  gmailUrl.searchParams.set("view", "cm");
+  gmailUrl.searchParams.set("fs", "1");
+  gmailUrl.searchParams.set("tf", "1");
+  gmailUrl.searchParams.set("to", membershipEmail);
+  gmailUrl.searchParams.set("su", subject);
+  gmailUrl.searchParams.set("body", body);
+  return gmailUrl.toString();
+}
+
+function updateInstitutionFields() {
+  institutionFields.hidden = joinType.value !== "기관 교육 문의";
+}
+
+joinType.addEventListener("change", updateInstitutionFields);
+updateInstitutionFields();
 
 joinForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const name = document.querySelector("#joinName").value.trim();
   const organization = document.querySelector("#joinOrg").value.trim();
-  const requestType = document.querySelector("#joinType").value;
+  const requestType = joinType.value;
   const message = document.querySelector("#joinMessage").value.trim();
 
   if (!name || !organization) {
-    alert("이름과 소속/직무를 입력해 주세요.");
+    alert("이름과 소속/직무 또는 기관 이름을 입력해 주세요.");
+    return;
+  }
+
+  if (requestType === "기관 교육 문의") {
+    const courseType = document.querySelector("#courseType").value;
+    const contactEmail = document.querySelector("#contactEmail").value.trim();
+    const contactPhone = document.querySelector("#contactPhone").value.trim();
+    const region = document.querySelector("#region").value.trim();
+    const preferredPeriod = document.querySelector("#preferredPeriod").value.trim();
+
+    if (!contactEmail || !contactPhone) {
+      alert("담당자 이메일주소와 연락처를 입력해 주세요.");
+      return;
+    }
+
+    const subject = `[KCL 기관교육 문의] ${courseType} - ${organization}`;
+    const body = [
+      "KOREA CONTENTS LAB 기관 교육 문의",
+      "",
+      "[관리자 검색용 접수 정보]",
+      `접수구분: 기관 교육 문의`,
+      `교육과정: ${courseType}`,
+      `희망기간: ${preferredPeriod || "(입력 없음)"}`,
+      `지역: ${region || "(입력 없음)"}`,
+      `기관명: ${organization}`,
+      `담당자명: ${name}`,
+      `담당자 이메일: ${contactEmail}`,
+      `담당자 연락처: ${contactPhone}`,
+      "",
+      "신청 내용:",
+      message || "(입력 없음)",
+      "",
+      "관리자 활용 안내:",
+      "Gmail에서 교육과정, 희망기간, 지역, 기관명, 담당자 연락처 항목으로 검색할 수 있습니다.",
+      "엑셀 정리가 필요한 경우 위 항목을 행 단위로 복사해 관리대장에 붙여넣어 활용합니다.",
+      "",
+      `신청 페이지: ${window.location.href}`,
+      `작성 시각: ${new Date().toLocaleString("ko-KR")}`
+    ].join("\n");
+
+    window.open(buildGmailUrl(subject, body), "_blank", "noopener");
     return;
   }
 
@@ -165,15 +226,7 @@ joinForm.addEventListener("submit", (event) => {
     `작성 시각: ${new Date().toLocaleString("ko-KR")}`
   ].join("\n");
 
-  const gmailUrl = new URL("https://mail.google.com/mail/");
-  gmailUrl.searchParams.set("view", "cm");
-  gmailUrl.searchParams.set("fs", "1");
-  gmailUrl.searchParams.set("tf", "1");
-  gmailUrl.searchParams.set("to", membershipEmail);
-  gmailUrl.searchParams.set("su", subject);
-  gmailUrl.searchParams.set("body", body);
-
-  pendingGmailUrl = gmailUrl.toString();
+  pendingGmailUrl = buildGmailUrl(subject, body);
   openConsentModal();
 });
 
