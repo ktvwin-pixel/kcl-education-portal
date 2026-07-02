@@ -266,3 +266,218 @@ consentSendBtn.addEventListener("click", () => {
   window.open(pendingGmailUrl, "_blank", "noopener");
   consentModal.hidden = true;
 });
+
+const adminStorageKey = "kclInstitutionApplications";
+const adminForm = document.querySelector("#adminForm");
+const parseAdminMailBtn = document.querySelector("#parseAdminMailBtn");
+const downloadAdminCsvBtn = document.querySelector("#downloadAdminCsvBtn");
+const clearAdminFiltersBtn = document.querySelector("#clearAdminFiltersBtn");
+const adminRows = document.querySelector("#adminRows");
+const adminCount = document.querySelector("#adminCount");
+const adminInputs = {
+  paste: document.querySelector("#adminPaste"),
+  receivedDate: document.querySelector("#adminReceivedDate"),
+  course: document.querySelector("#adminCourse"),
+  period: document.querySelector("#adminPeriod"),
+  region: document.querySelector("#adminRegion"),
+  organization: document.querySelector("#adminOrg"),
+  name: document.querySelector("#adminName"),
+  email: document.querySelector("#adminEmail"),
+  phone: document.querySelector("#adminPhone"),
+  message: document.querySelector("#adminMessage")
+};
+const adminFilters = {
+  from: document.querySelector("#filterDateFrom"),
+  to: document.querySelector("#filterDateTo"),
+  period: document.querySelector("#filterPeriod"),
+  region: document.querySelector("#filterRegion"),
+  organization: document.querySelector("#filterOrg"),
+  phone: document.querySelector("#filterPhone")
+};
+
+function todayText() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function readAdminRecords() {
+  try {
+    return JSON.parse(localStorage.getItem(adminStorageKey)) || [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function writeAdminRecords(records) {
+  localStorage.setItem(adminStorageKey, JSON.stringify(records));
+}
+
+function fieldFromMail(text, label) {
+  const match = text.match(new RegExp(`${label}\\s*:\\s*([^\\n]+)`, "i"));
+  return match ? match[1].trim() : "";
+}
+
+function messageFromMail(text) {
+  const match = text.match(/신청\s*내용\s*:\s*([\s\S]*?)(?:\n\s*\n관리자|$)/);
+  return match ? match[1].trim() : "";
+}
+
+function fillAdminDate() {
+  if (!adminInputs.receivedDate.value) {
+    adminInputs.receivedDate.value = todayText();
+  }
+}
+
+function parseAdminMail() {
+  const text = adminInputs.paste.value.trim();
+  if (!text) {
+    alert("접수 메일 본문을 붙여넣어 주세요.");
+    return;
+  }
+
+  fillAdminDate();
+  adminInputs.course.value = fieldFromMail(text, "교육과정") || adminInputs.course.value;
+  adminInputs.period.value = fieldFromMail(text, "희망기간");
+  adminInputs.region.value = fieldFromMail(text, "지역");
+  adminInputs.organization.value = fieldFromMail(text, "기관명");
+  adminInputs.name.value = fieldFromMail(text, "담당자명");
+  adminInputs.email.value = fieldFromMail(text, "담당자 이메일");
+  adminInputs.phone.value = fieldFromMail(text, "담당자 연락처");
+  adminInputs.message.value = messageFromMail(text);
+}
+
+function currentAdminRecord() {
+  return {
+    id: `${Date.now()}`,
+    receivedDate: adminInputs.receivedDate.value || todayText(),
+    course: adminInputs.course.value,
+    period: adminInputs.period.value.trim(),
+    region: adminInputs.region.value.trim(),
+    organization: adminInputs.organization.value.trim(),
+    name: adminInputs.name.value.trim(),
+    email: adminInputs.email.value.trim(),
+    phone: adminInputs.phone.value.trim(),
+    message: adminInputs.message.value.trim()
+  };
+}
+
+function adminMatches(record) {
+  const from = adminFilters.from.value;
+  const to = adminFilters.to.value;
+  const period = adminFilters.period.value.trim();
+  const region = adminFilters.region.value.trim();
+  const organization = adminFilters.organization.value.trim();
+  const phone = adminFilters.phone.value.trim();
+
+  if (from && record.receivedDate < from) return false;
+  if (to && record.receivedDate > to) return false;
+  if (period && !record.period.includes(period)) return false;
+  if (region && !record.region.includes(region)) return false;
+  if (organization && !record.organization.includes(organization)) return false;
+  if (phone && !record.phone.includes(phone)) return false;
+  return true;
+}
+
+function filteredAdminRecords() {
+  return readAdminRecords().filter(adminMatches);
+}
+
+function escapeHtml(value) {
+  return String(value || "").replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[char]));
+}
+
+function renderAdminRecords() {
+  const records = filteredAdminRecords();
+  adminRows.innerHTML = "";
+  adminCount.textContent = `검색 결과 ${records.length}건`;
+
+  if (!records.length) {
+    adminRows.innerHTML = '<tr class="empty-admin-row"><td colspan="6">저장된 신청 정보가 없습니다.</td></tr>';
+    return;
+  }
+
+  records.forEach((record) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${escapeHtml(record.receivedDate)}</td>
+      <td>${escapeHtml(record.course)}<br><small>${escapeHtml(record.period || "-")}</small></td>
+      <td>${escapeHtml(record.region || "-")}</td>
+      <td>${escapeHtml(record.organization)}</td>
+      <td>${escapeHtml(record.name)}<br><small>${escapeHtml(record.email || "-")}</small></td>
+      <td>${escapeHtml(record.phone)}</td>
+    `;
+    adminRows.appendChild(row);
+  });
+}
+
+function saveAdminRecord(event) {
+  event.preventDefault();
+  const record = currentAdminRecord();
+  if (!record.organization || !record.name || !record.phone) {
+    alert("기관명, 담당자명, 담당자 연락처를 입력해 주세요.");
+    return;
+  }
+
+  const records = readAdminRecords();
+  records.unshift(record);
+  writeAdminRecords(records);
+  adminForm.reset();
+  fillAdminDate();
+  renderAdminRecords();
+}
+
+function csvCell(value) {
+  return `"${String(value || "").replace(/"/g, '""')}"`;
+}
+
+function downloadAdminCsv() {
+  const records = filteredAdminRecords();
+  if (!records.length) {
+    alert("다운로드할 신청 정보가 없습니다.");
+    return;
+  }
+
+  const headers = ["접수일", "교육과정", "희망기간", "지역", "기관명", "담당자명", "담당자 이메일", "담당자 연락처", "신청 내용"];
+  const rows = records.map((record) => [
+    record.receivedDate,
+    record.course,
+    record.period,
+    record.region,
+    record.organization,
+    record.name,
+    record.email,
+    record.phone,
+    record.message
+  ]);
+  const csv = [headers, ...rows].map((row) => row.map(csvCell).join(",")).join("\n");
+  const blob = new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `KCL_기관교육_신청대장_${todayText()}.csv`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+function clearAdminFilters() {
+  Object.values(adminFilters).forEach((input) => {
+    input.value = "";
+  });
+  renderAdminRecords();
+}
+
+if (adminForm) {
+  fillAdminDate();
+  parseAdminMailBtn.addEventListener("click", parseAdminMail);
+  adminForm.addEventListener("submit", saveAdminRecord);
+  downloadAdminCsvBtn.addEventListener("click", downloadAdminCsv);
+  clearAdminFiltersBtn.addEventListener("click", clearAdminFilters);
+  Object.values(adminFilters).forEach((input) => {
+    input.addEventListener("input", renderAdminRecords);
+  });
+  renderAdminRecords();
+}
