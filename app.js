@@ -148,5 +148,12 @@ joinForm.addEventListener("submit", (event) => {
     `작성 시각: ${new Date().toLocaleString("ko-KR")}`
   ].join("\n");
 
-  window.location.href = `mailto:2025koreacl@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const gmailUrl = new URL("https://mail.google.com/mail/");
+  gmailUrl.searchParams.set("view", "cm");
+  gmailUrl.searchParams.set("fs", "1");
+  gmailUrl.searchParams.set("to", "2025koreacl@gmail.com");
+  gmailUrl.searchParams.set("su", subject);
+  gmailUrl.searchParams.set("body", body);
+
+  window.open(gmailUrl.toString(), "_blank", "noopener");
 });
