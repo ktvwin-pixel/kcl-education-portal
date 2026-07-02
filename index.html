@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>KOREA CONTENTS LAB | 재난방송·위기소통 교육포털</title>
     <meta name="description" content="KOREA CONTENTS LAB 재난방송·위기소통 표준교육, 회원제 자료실, 재난소통 Q&A, 출판 도서 연계 교육포털">
-    <link rel="stylesheet" href="styles.css?v=member-consent">
+    <link rel="stylesheet" href="styles.css?v=admin-ledger-export">
   </head>
   <body>
     <header class="site-header">
@@ -21,6 +21,7 @@
         <a href="#membership">회원제</a>
         <a href="#qa-tool">질문답변</a>
         <a href="#books">도서연계</a>
+        <a href="#admin">관리자</a>
       </nav>
       <a class="header-action" href="#join">가입 신청</a>
     </header>
@@ -329,6 +330,114 @@
           <button id="joinSubmitBtn" type="submit">신청 내용 발송</button>
         </form>
       </section>
+
+      <section id="admin" class="admin-section">
+        <div class="section-heading">
+          <p class="eyebrow">관리자 접수대장</p>
+          <h2>신청 정보를 확인하고<br>엑셀 파일로 내려받습니다.</h2>
+          <p>Gmail로 접수된 기관 교육 문의 내용을 붙여넣으면 검색용 항목으로 정리됩니다. 저장된 자료는 이 브라우저의 관리자 대장에 보관됩니다.</p>
+        </div>
+        <div class="admin-layout">
+          <form class="admin-form" id="adminForm">
+            <label>
+              접수 메일 본문 붙여넣기
+              <textarea id="adminPaste" rows="7" placeholder="Gmail로 접수된 신청 메일 본문을 붙여넣은 뒤 자동 입력을 누르세요."></textarea>
+            </label>
+            <button id="parseAdminMailBtn" class="secondary-admin-btn" type="button">메일 내용 자동 입력</button>
+            <div class="admin-field-grid">
+              <label>
+                접수일
+                <input id="adminReceivedDate" type="date">
+              </label>
+              <label>
+                교육과정
+                <select id="adminCourse">
+                  <option>2시간 과정</option>
+                  <option>3시간 과정</option>
+                  <option>자격증 과정</option>
+                </select>
+              </label>
+              <label>
+                희망기간
+                <input id="adminPeriod" type="text" placeholder="2026년 8월 중">
+              </label>
+              <label>
+                지역
+                <input id="adminRegion" type="text" placeholder="서울">
+              </label>
+              <label>
+                기관명
+                <input id="adminOrg" type="text" placeholder="신청 기관 이름">
+              </label>
+              <label>
+                담당자명
+                <input id="adminName" type="text" placeholder="담당자 이름">
+              </label>
+              <label>
+                담당자 이메일주소
+                <input id="adminEmail" type="email" placeholder="name@example.com">
+              </label>
+              <label>
+                담당자 연락처
+                <input id="adminPhone" type="tel" placeholder="010-0000-0000">
+              </label>
+            </div>
+            <label>
+              신청 내용
+              <textarea id="adminMessage" rows="4" placeholder="기관 요청사항, 교육 목적, 특이사항"></textarea>
+            </label>
+            <button id="saveAdminRecordBtn" type="submit">접수대장 저장</button>
+          </form>
+          <div class="admin-list">
+            <div class="admin-filter-grid">
+              <label>
+                시작일
+                <input id="filterDateFrom" type="date">
+              </label>
+              <label>
+                종료일
+                <input id="filterDateTo" type="date">
+              </label>
+              <label>
+                희망기간
+                <input id="filterPeriod" type="text" placeholder="8월, 2026">
+              </label>
+              <label>
+                지역
+                <input id="filterRegion" type="text" placeholder="서울">
+              </label>
+              <label>
+                기관
+                <input id="filterOrg" type="text" placeholder="기관명">
+              </label>
+              <label>
+                연락처
+                <input id="filterPhone" type="text" placeholder="010">
+              </label>
+            </div>
+            <div class="admin-actions">
+              <button id="downloadAdminCsvBtn" type="button">엑셀 파일 다운로드</button>
+              <button id="clearAdminFiltersBtn" type="button">검색 초기화</button>
+            </div>
+            <div class="admin-count" id="adminCount">저장된 신청 0건</div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>접수일</th>
+                    <th>교육과정</th>
+                    <th>지역</th>
+                    <th>기관명</th>
+                    <th>담당자</th>
+                    <th>연락처</th>
+                  </tr>
+                </thead>
+                <tbody id="adminRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <div class="consent-modal" id="consentModal" hidden>
@@ -381,6 +490,6 @@
       </div>
     </footer>
 
-  <script src="app.js?v=institution-education-form"></script>
+  <script src="app.js?v=admin-ledger-export"></script>
   </body>
 </html>
