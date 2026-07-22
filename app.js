@@ -34,42 +34,127 @@ const tierData = {
   }
 };
 
+const officialSourceLinks = [
+  {
+    title: "국민안전24",
+    url: "https://www.safekorea.go.kr/safekorea-kor/main/main.do",
+    description: "재난정보, 국민행동요령, 재난문자, 대피시설, 피해신고 등 공식 재난안전정보"
+  },
+  {
+    title: "행정안전부 국민안전24 안내",
+    url: "https://www.mois.go.kr/frt/sub/a06/b11/safekorea/screen.do",
+    description: "국민안전24의 목적, 제공 정보, 재난관리정보통신체계 안내"
+  },
+  {
+    title: "행정안전부",
+    url: "https://www.mois.go.kr/",
+    description: "재난안전 정책, 보도자료, 국민 안내의 공식 주관 부처"
+  },
+  {
+    title: "국민안전교육플랫폼",
+    url: "https://kasem.safekorea.go.kr/",
+    description: "생애주기별·안전분야별 안전교육 콘텐츠와 전문인력·기관 연계"
+  },
+  {
+    title: "재난 및 안전관리 기본법",
+    url: "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=283851",
+    description: "재난 예방·대비·대응·복구와 국가·지방자치단체 책무의 기본 법령"
+  },
+  {
+    title: "국가법령정보센터",
+    url: "https://www.law.go.kr/",
+    description: "재난 관련 법령, 시행령, 시행규칙, 조례 위임 정보를 확인하는 공식 법령 사이트"
+  }
+];
+
 const answerGuides = {
   briefing: {
     title: "브리핑 답변 구조",
+    basic: "확인된 사실, 현재 조치, 국민 행동정보, 다음 안내 시각을 분리해 말합니다. 원인이나 책임은 확인 전 단정하지 않습니다.",
     lines: [
       "확인된 사실과 확인 중인 정보를 분리해 말합니다.",
       "현재 조치, 인명 보호, 현장 통제 상황을 먼저 설명합니다.",
-      "다음 안내 시각과 공식 확인 채널을 함께 제시합니다."
+      "국민안전24, 행정안전부, 관할 지자체 등 공식 확인 채널을 함께 제시합니다."
     ],
-    template: "현재 확인된 사실은 [확인 사실]입니다. 인명 보호와 현장 통제를 위해 [현재 조치]를 진행하고 있습니다. 추가 확인 내용은 [다음 안내 시각]에 공식 채널로 안내드리겠습니다."
+    template: "현재 확인된 사실은 [확인 사실]입니다. 인명 보호와 현장 통제를 위해 [현재 조치]를 진행하고 있습니다. 국민께서는 [행동요령]을 따라 주시고, 추가 확인 내용은 [다음 안내 시각]에 공식 채널로 안내드리겠습니다.",
+    links: ["국민안전24", "행정안전부", "재난 및 안전관리 기본법"]
+  },
+  action: {
+    title: "국민행동요령 답변 구조",
+    basic: "국민에게 필요한 행동은 짧고 순서 있게 안내합니다. 대피, 신고, 위험지역 회피, 공식 안내 확인을 우선합니다.",
+    lines: [
+      "지금 해야 할 행동을 1~3단계로 말합니다.",
+      "대피 장소, 신고 번호, 위험지역 회피 기준을 구체화합니다.",
+      "국민안전24의 국민행동요령과 지자체 공식 안내를 확인하도록 연결합니다."
+    ],
+    template: "우선 [즉시 행동]을 해 주십시오. 위험지역에는 접근하지 말고 [대피/신고/확인 절차]를 따라 주시기 바랍니다. 자세한 행동요령은 국민안전24와 관할 지자체 공식 안내를 확인해 주십시오.",
+    links: ["국민안전24", "행정안전부 국민안전24 안내"]
   },
   rumor: {
     title: "루머·SNS 대응 구조",
+    basic: "허위정보는 반복 확산하지 않고 짧게 정정합니다. 확인된 사실, 확인 중인 내용, 공식 확인 채널을 분리해 안내합니다.",
     lines: [
       "허위정보를 반복 확산하지 않도록 짧게 정정합니다.",
       "사실, 맥락, 시각 자료를 같은 메시지로 제공합니다.",
-      "공식 채널과 업데이트 시간을 고정해 혼선을 줄입니다."
+      "국민안전24, 행정안전부, 관할기관 발표 등 공식 채널과 업데이트 시간을 고정해 혼선을 줄입니다."
     ],
-    template: "현재 온라인에 확산 중인 내용 중 [루머 내용]은 확인된 사실과 다릅니다. 공식 확인 내용은 [사실]이며, 추가 자료는 [공식 채널]에서 계속 갱신하겠습니다."
+    template: "현재 온라인에 확산 중인 내용 중 [루머 내용]은 공식 확인 내용과 다릅니다. 확인된 사실은 [사실]이며, 추가 내용은 국민안전24와 관계기관 공식 채널에서 갱신하겠습니다.",
+    links: ["국민안전24", "행정안전부", "국가법령정보센터"]
   },
   victim: {
     title: "피해자 보호 답변 구조",
+    basic: "피해자와 가족 보호를 최우선으로 하며 개인정보, 신원, 자극적 장면은 공개하지 않습니다. 지원 절차와 공식 상담·신고 채널로 연결합니다.",
     lines: [
       "피해자와 유가족의 의사를 우선 확인합니다.",
       "개인정보, 신원, 자극적 장면은 공개하지 않습니다.",
-      "보도 가능 범위와 지원 절차를 차분하게 안내합니다."
+      "보도 가능 범위, 피해신고, 심리회복, 복구지원 절차를 차분하게 안내합니다."
     ],
-    template: "피해자와 가족의 보호를 최우선으로 하고 있어 개인정보와 신원 관련 내용은 공개하지 않습니다. 현재 지원 절차는 [지원 조치]이며, 확인 가능한 범위 안에서만 안내드리겠습니다."
+    template: "피해자와 가족의 보호를 최우선으로 하고 있어 개인정보와 신원 관련 내용은 공개하지 않습니다. 현재 [지원 조치]를 진행하고 있으며, 피해신고와 지원 절차는 국민안전24 및 관할기관 안내에 따라 확인해 주시기 바랍니다.",
+    links: ["국민안전24", "재난 및 안전관리 기본법", "행정안전부"]
+  },
+  support: {
+    title: "피해신고·지원 답변 구조",
+    basic: "피해 사실은 사진, 위치, 시간, 연락처 등 확인 자료를 갖추어 관할 지자체 또는 공식 피해신고 절차로 연결합니다.",
+    lines: [
+      "긴급 위험이 있으면 119·112 등 긴급신고를 먼저 안내합니다.",
+      "피해 위치, 발생 시각, 피해 규모, 연락처 등 접수에 필요한 정보를 정리합니다.",
+      "사유재산 피해신고, 재난지원, 보험 등은 국민안전24와 지자체 안내를 확인하도록 연결합니다."
+    ],
+    template: "긴급 위험이 있으면 즉시 [긴급신고]를 해 주십시오. 피해신고는 [위치, 시각, 피해 내용, 연락처]를 정리해 관할 지자체와 국민안전24 안내 절차에 따라 접수해 주시기 바랍니다.",
+    links: ["국민안전24", "행정안전부 국민안전24 안내", "재난 및 안전관리 기본법"]
+  },
+  education: {
+    title: "안전교육 답변 구조",
+    basic: "교육 문의는 대상, 연령·직무, 재난유형, 교육시간, 실습 필요성을 확인한 뒤 국민안전교육플랫폼의 공공 교육자료와 연계합니다.",
+    lines: [
+      "교육 대상과 위험 상황을 먼저 구분합니다.",
+      "생애주기별·안전분야별 콘텐츠와 실습 자료를 확인합니다.",
+      "국민안전교육플랫폼의 교육자료, 안전체험관, 전문인력 연계를 안내합니다."
+    ],
+    template: "해당 교육은 [대상]과 [재난유형]에 맞춰 구성하는 것이 적절합니다. 기본 자료는 국민안전교육플랫폼에서 생애주기별·안전분야별로 확인하고, 기관 교육은 실습과 평가를 포함해 설계하는 방향을 권합니다.",
+    links: ["국민안전교육플랫폼", "국민안전24", "행정안전부"]
+  },
+  law: {
+    title: "법령·근거 답변 구조",
+    basic: "법령 관련 질문은 재난 및 안전관리 기본법을 기본 근거로 삼고, 세부 사항은 시행령·시행규칙·개별 재난 관련 법령을 국가법령정보센터에서 확인합니다.",
+    lines: [
+      "정책 판단과 현장 안내를 구분해 답합니다.",
+      "법령 조문은 국가법령정보센터에서 최신 시행일을 확인합니다.",
+      "재난 예방·대비·대응·복구, 재난관리책임기관, 국민 안내 의무와 연결해 설명합니다."
+    ],
+    template: "기본 근거는 재난 및 안전관리 기본법입니다. 다만 구체적인 조치 권한, 신고 절차, 교육 의무, 지원 기준은 시행령·시행규칙 및 개별 법령에 따라 달라질 수 있으므로 국가법령정보센터에서 최신 조문을 확인해야 합니다.",
+    links: ["재난 및 안전관리 기본법", "국가법령정보센터", "행정안전부"]
   },
   interview: {
     title: "인터뷰 답변 구조",
+    basic: "짧은 인터뷰는 핵심 메시지 1개, 확인 사실 1개, 국민 행동정보 1개로 구성합니다.",
     lines: [
       "한 질문에는 한 메시지로 답합니다.",
       "15초 안에 말할 수 있도록 75~85자 수준으로 줄입니다.",
       "모르는 내용은 추측하지 않고 확인 절차로 연결합니다."
     ],
-    template: "지금 가장 중요한 것은 [핵심 메시지]입니다. 확인된 내용은 [사실]이며, 아직 확인되지 않은 부분은 관계기관과 교차 확인한 뒤 안내하겠습니다."
+    template: "지금 가장 중요한 것은 [핵심 메시지]입니다. 확인된 내용은 [사실]이며, 국민께서는 [행동요령]을 따라 주십시오. 확인 중인 부분은 관계기관과 교차 확인한 뒤 안내하겠습니다.",
+    links: ["국민안전24", "행정안전부"]
   }
 };
 
@@ -99,18 +184,54 @@ const answerOutput = document.querySelector("#answerOutput");
 const questionInput = document.querySelector("#questionInput");
 const scenarioSelect = document.querySelector("#scenarioSelect");
 
+function detectQuestionDirection(question) {
+  const text = question.replace(/\s/g, "");
+  const rules = [
+    { key: "action", words: ["대피", "행동요령", "어떻게해야", "어디로", "안전수칙", "위험지역", "재난문자"] },
+    { key: "support", words: ["피해신고", "지원", "보상", "복구", "사유재산", "침수피해", "신고방법"] },
+    { key: "education", words: ["교육", "훈련", "강의", "과정", "자격증", "안전교육", "AI활용"] },
+    { key: "law", words: ["법", "법령", "조항", "근거", "의무", "책임", "기본법", "시행령"] },
+    { key: "rumor", words: ["루머", "가짜뉴스", "허위", "SNS", "카톡", "온라인", "소문"] },
+    { key: "victim", words: ["피해자", "유가족", "사망자", "부상자", "개인정보", "신원", "심리"] },
+    { key: "interview", words: ["인터뷰", "한마디", "짧게", "15초", "질문받", "답변"] },
+    { key: "briefing", words: ["브리핑", "원인", "발표", "기자", "언론", "현장상황", "공식입장"] }
+  ];
+
+  const match = rules.find((rule) => rule.words.some((word) => text.includes(word)));
+  return match ? match.key : "briefing";
+}
+
+function sourceLinksFor(guide) {
+  return guide.links
+    .map((title) => officialSourceLinks.find((source) => source.title === title))
+    .filter(Boolean);
+}
+
 function renderAnswer() {
-  const guide = answerGuides[scenarioSelect.value];
   const question = questionInput.value.trim();
+  const selected = scenarioSelect.value === "auto" ? detectQuestionDirection(question) : scenarioSelect.value;
+  const guide = answerGuides[selected];
   const questionLine = question
-    ? `<p><strong>질문 요약:</strong> ${question}</p>`
+    ? `<p><strong>질문 요약:</strong> ${escapeHtml(question)}</p>`
     : "<p><strong>질문 요약:</strong> 입력된 질문이 없어 기본 가이드를 표시합니다.</p>";
+  const sourceLinks = sourceLinksFor(guide);
 
   answerOutput.innerHTML = `
     ${questionLine}
+    <p><strong>판단한 답변 방향:</strong> ${guide.title}</p>
+    <p><strong>가장 기본 답변:</strong><br>${guide.basic}</p>
     <p><strong>${guide.title}</strong></p>
     <ol>${guide.lines.map((line) => `<li>${line}</li>`).join("")}</ol>
     <p><strong>표준 답변 예시:</strong><br>${guide.template}</p>
+    <div class="official-links">
+      <strong>공식 확인 사이트</strong>
+      ${sourceLinks.map((source) => `
+        <a href="${source.url}" target="_blank" rel="noopener">
+          <span>${source.title}</span>
+          <small>${source.description}</small>
+        </a>
+      `).join("")}
+    </div>
   `;
 }
 
