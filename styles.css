@@ -546,6 +546,36 @@ select {
   color: var(--white);
 }
 
+.official-links {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.official-links a {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.08);
+  text-decoration: none;
+}
+
+.official-links a:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.official-links span {
+  font-weight: 900;
+}
+
+.official-links small {
+  color: rgba(255, 255, 255, 0.74);
+  line-height: 1.45;
+}
+
 .books-section {
   background: var(--white);
 }
