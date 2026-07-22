@@ -1,0 +1,19 @@
+{
+  "name": "KOREA CONTENTS LAB 교육포털",
+  "short_name": "KCL 교육포털",
+  "description": "재난방송·위기소통 표준교육, 회원제 자료실, Q&A, 기관 교육 문의를 제공하는 KOREA CONTENTS LAB 웹형 앱입니다.",
+  "start_url": "/kcl-education-portal/",
+  "scope": "/kcl-education-portal/",
+  "display": "standalone",
+  "background_color": "#f8faf8",
+  "theme_color": "#173f35",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/kcl-app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
