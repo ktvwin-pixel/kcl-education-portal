@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="KCL 교육포털 아이콘">
+  <rect width="512" height="512" rx="96" fill="#173f35"/>
+  <path d="M106 138h300v236H106z" fill="#f8faf8" opacity=".96"/>
+  <path d="M132 164h248v44H132z" fill="#dceae3"/>
+  <path d="M132 238h248v16H132zm0 42h190v16H132zm0 42h220v16H132z" fill="#173f35"/>
+  <circle cx="362" cy="326" r="34" fill="#b8d36b"/>
+  <path d="M91 398h330" stroke="#b8d36b" stroke-width="24" stroke-linecap="round"/>
+  <text x="256" y="116" fill="#ffffff" font-family="Arial, sans-serif" font-size="64" font-weight="700" text-anchor="middle">KCL</text>
+</svg>
